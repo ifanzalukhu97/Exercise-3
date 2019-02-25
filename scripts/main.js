@@ -1,6 +1,12 @@
 let tBody = document.getElementById("table-body");
 let dropDownItems = document.querySelectorAll(".dropdown-item");
-var dropDownButton = document.querySelector(".dropdown-toggle");
+let dropDownButton = document.querySelector(".dropdown-toggle");
+let btnFilter = document.getElementById("btn-filter");
+let filterContainer = document.getElementById("filter-container");
+let filterByName = document.getElementById("filter-by-name");
+let filterByRotation = document.getElementById("filter-by-rotation");
+let filterByOrbit = document.getElementById("filter-by-orbit");
+let filterByDiameter = document.getElementById("filter-by-diameter");
 
 // Load planet_list object from planet_list.js
 let planetList = planet_list;
@@ -89,3 +95,58 @@ dropDownItems.forEach(dropDown => {
     }`;
   });
 });
+
+// Show / hide filter container table
+btnFilter.addEventListener("click", () => {
+  filterContainer.classList.toggle("view-gone");
+});
+
+// ============ Filter =======================
+filterByName.addEventListener("keyup", () => {
+  planetList = planet_list;
+
+  planetList = planetList.filter(planet =>
+    planet.name
+      .toLocaleLowerCase()
+      .includes(filterByName.value.toLocaleLowerCase())
+  );
+
+  showTableRow();
+});
+
+filterByRotation.addEventListener("keyup", () => {
+  planetList = planet_list;
+
+  planetList = planetList.filter(planet =>
+    planet.rotation_period
+      .toLocaleLowerCase()
+      .includes(filterByRotation.value.toLocaleLowerCase())
+  );
+
+  showTableRow();
+});
+
+filterByOrbit.addEventListener("keyup", () => {
+  planetList = planet_list;
+
+  planetList = planetList.filter(planet =>
+    planet.orbital_period
+      .toLocaleLowerCase()
+      .includes(filterByOrbit.value.toLocaleLowerCase())
+  );
+
+  showTableRow();
+});
+
+filterByDiameter.addEventListener("keyup", () => {
+  planetList = planet_list;
+
+  planetList = planetList.filter(planet =>
+    planet.diameter
+      .toLocaleLowerCase()
+      .includes(filterByDiameter.value.toLocaleLowerCase())
+  );
+
+  showTableRow();
+});
+// ============ End Filter =======================
