@@ -1,0 +1,11 @@
+#table-head-label {
+  height: 50px;
+  line-height: 50px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.table-responsive-xl {
+  margin-left: 20px;
+  margin-right: 20px;
+}
