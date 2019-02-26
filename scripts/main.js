@@ -4,6 +4,7 @@ let dropDownButton = document.querySelector(".dropdown-toggle");
 let btnFilter = document.getElementById("btn-filter");
 let filterContainer = document.getElementById("filter-container");
 let inputValueFiltersBy = document.querySelectorAll(".filter-by");
+let notFoundData = document.querySelector(".not-found");
 
 // Load planet_list object from planet_list.js
 let planetList = planet_list;
@@ -118,6 +119,13 @@ function filterTableByColumn(filterBy) {
       .toLocaleLowerCase()
       .includes(filterBy.value.toLocaleLowerCase())
   );
+
+  // Show not found data when data is empty
+  if (planetList.length == 0) {
+    notFoundData.classList.remove("view-gone");
+  } else {
+    notFoundData.classList.add("view-gone");
+  }
 
   // Update new table data after filtering
   showTableRow();
