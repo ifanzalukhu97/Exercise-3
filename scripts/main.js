@@ -8,36 +8,23 @@ let inputValueFiltersBy = document.querySelectorAll(".filter-by");
 // Load planet_list object from planet_list.js
 let planetList = planet_list;
 
-//Show tables row
-//by default sorting by "name"
-sortTableRow("Name");
+//Show tables row & by default sorting by "name"
+sortTableRow("name");
 
 // sort an array of objects by a property value
 // but when the property value  is same, sorting again by "name"
-function sortTableRow(textContent) {
-  if (textContent == "Name") {
+function sortTableRow(objKeyAttribute) {
+  if (objKeyAttribute === "name") {
     planetList.sort((a, b) => (a.name > b.name ? 1 : -1));
-  } else if (textContent == "Rotation Period") {
+  } else {
     planetList.sort((a, b) =>
-      parseInt(a.rotation_period) > parseInt(b.rotation_period)
+      parseInt(a[objKeyAttribute]) > parseInt(b[objKeyAttribute])
         ? 1
-        : a.rotation_period === b.rotation_period
+        : a[objKeyAttribute] === b[objKeyAttribute]
         ? a.name > b.name
           ? 1
           : -1
         : -1
-    );
-  } else if (textContent == "Orbital Period") {
-    planetList.sort((a, b) =>
-      parseInt(a.orbital_period) > parseInt(b.orbital_period) ? 1 : -1
-    );
-  } else if (textContent == "Diameter") {
-    planetList.sort((a, b) =>
-      parseInt(a.diameter) > parseInt(b.diameter) ? 1 : -1
-    );
-  } else if (textContent == "Surface Water") {
-    planetList.sort((a, b) =>
-      parseInt(a.surface_water) > parseInt(b.surface_water) ? 1 : -1
     );
   }
 
@@ -82,7 +69,8 @@ function createTableData(teksNode) {
 // Dropdown event listener for sorting table row
 dropDownItems.forEach(dropDown => {
   dropDown.addEventListener("click", () => {
-    sortTableRow(dropDown.textContent);
+    // dropDown.getAttribute("object_key") is same with planetList key object
+    sortTableRow(dropDown.getAttribute("object_key"));
 
     // Update selected dropdown label
     dropDownButton.innerHTML = `<img src="./images/sort_asc.png"> ${
@@ -108,7 +96,7 @@ function filterTableByColumn(filterBy) {
 
   // Check if input value filter contains/includes in planetList object array
   planetList = planetList.filter(planet =>
-    // filterBy.placeholder is same with Planelist key object
+    // filterBy.placeholder is same with planetList key object
     planet[filterBy.placeholder]
       .toLocaleLowerCase()
       .includes(filterBy.value.toLocaleLowerCase())
