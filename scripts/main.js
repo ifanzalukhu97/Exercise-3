@@ -8,8 +8,10 @@ let inputValueFiltersBy = document.querySelectorAll(".filter-by");
 // Load planet_list object from planet_list.js
 let planetList = planet_list;
 
-//Show tables row & by default sorting by "name"
+// Show tables row & by default sorting by "name"
 sortTableRow("name");
+// by default highlight "Name" columns
+highLightTableColumns("name");
 
 // sort an array of objects by a property value
 // but when the property value  is same, sorting again by "name"
@@ -40,11 +42,11 @@ function showTableRow() {
   planetList.forEach((planet, index) => {
     let tr = document.createElement("TR");
 
-    tr.appendChild(createTableData(index + 1));
-    tr.appendChild(createTableData(planet.name));
-    tr.appendChild(createTableData(planet.rotation_period));
-    tr.appendChild(createTableData(planet.orbital_period));
-    tr.appendChild(createTableData(planet.diameter));
+    tr.appendChild(createTableData(index + 1, `${index + 1}`));
+    tr.appendChild(createTableData(planet.name, "name"));
+    tr.appendChild(createTableData(planet.rotation_period, "rotation_period"));
+    tr.appendChild(createTableData(planet.orbital_period, "orbital_period"));
+    tr.appendChild(createTableData(planet.diameter, "diameter"));
 
     tBody.appendChild(tr);
   });
@@ -58,9 +60,11 @@ function resetTableBody() {
 }
 
 // Create element table data (TD) and return it
-function createTableData(teksNode) {
+function createTableData(teksNode, objectKey) {
   let td = document.createElement("TD");
-  tdText = document.createTextNode(teksNode);
+  td.className = objectKey;
+
+  let tdText = document.createTextNode(teksNode);
 
   td.appendChild(tdText);
   return td;
@@ -72,12 +76,25 @@ dropDownItems.forEach(dropDown => {
     // dropDown.getAttribute("object_key") is same with planetList key object
     sortTableRow(dropDown.getAttribute("object_key"));
 
+    // Highlight filter table columns
+    highLightTableColumns(dropDown.getAttribute("object_key"));
+
     // Update selected dropdown label
     dropDownButton.innerHTML = `<img src="./images/sort_asc.png"> ${
       dropDown.textContent
     }`;
   });
 });
+
+function highLightTableColumns(objectKeyAttr) {
+  tBody.childNodes.forEach(tr => {
+    tr.childNodes.forEach(td => {
+      if (td.className === `${objectKeyAttr}`) {
+        td.classList.toggle(`planet-${objectKeyAttr}`);
+      }
+    });
+  });
+}
 
 // Show / hide filter container table
 btnFilter.addEventListener("click", () => {

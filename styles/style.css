@@ -13,3 +13,10 @@
 .view-gone {
   visibility: collapse;
 }
+
+.planet-name,
+.planet-rotation_period,
+.planet-orbital_period,
+.planet-diameter {
+  background-color: darkcyan;
+}
