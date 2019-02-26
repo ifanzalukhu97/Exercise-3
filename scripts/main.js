@@ -3,10 +3,7 @@ let dropDownItems = document.querySelectorAll(".dropdown-item");
 let dropDownButton = document.querySelector(".dropdown-toggle");
 let btnFilter = document.getElementById("btn-filter");
 let filterContainer = document.getElementById("filter-container");
-let filterByName = document.getElementById("filter-by-name");
-let filterByRotation = document.getElementById("filter-by-rotation");
-let filterByOrbit = document.getElementById("filter-by-orbit");
-let filterByDiameter = document.getElementById("filter-by-diameter");
+let inputValueFiltersBy = document.querySelectorAll(".filter-by");
 
 // Load planet_list object from planet_list.js
 let planetList = planet_list;
@@ -49,12 +46,10 @@ function sortTableRow(textContent) {
 
 // After sorting, show tables row
 function showTableRow() {
-  // Remove all old tables rows
-  // Before append new table
+  // Remove all old tables rows, before append new table
   resetTableBody();
 
-  // Create new table row from planetlist data
-  // and append it to table (tBody)
+  // Create new table row from planetlist data, and append it to table (tBody)
   planetList.forEach((planet, index) => {
     let tr = document.createElement("TR");
 
@@ -102,51 +97,24 @@ btnFilter.addEventListener("click", () => {
 });
 
 // ============ Filter =======================
-filterByName.addEventListener("keyup", () => {
-  planetList = planet_list;
-
-  planetList = planetList.filter(planet =>
-    planet.name
-      .toLocaleLowerCase()
-      .includes(filterByName.value.toLocaleLowerCase())
-  );
-
-  showTableRow();
+// Handle every input value from column input filter form
+inputValueFiltersBy.forEach(input => {
+  input.addEventListener("keyup", () => filterTableByColumn(input));
 });
 
-filterByRotation.addEventListener("keyup", () => {
+// Filter planetList by value from input filter form
+function filterTableByColumn(filterBy) {
   planetList = planet_list;
 
+  // Check if input value filter contains/includes in planetList object array
   planetList = planetList.filter(planet =>
-    planet.rotation_period
+    // filterBy.placeholder is same with Planelist key object
+    planet[filterBy.placeholder]
       .toLocaleLowerCase()
-      .includes(filterByRotation.value.toLocaleLowerCase())
+      .includes(filterBy.value.toLocaleLowerCase())
   );
 
+  // Update new table data after filtering
   showTableRow();
-});
-
-filterByOrbit.addEventListener("keyup", () => {
-  planetList = planet_list;
-
-  planetList = planetList.filter(planet =>
-    planet.orbital_period
-      .toLocaleLowerCase()
-      .includes(filterByOrbit.value.toLocaleLowerCase())
-  );
-
-  showTableRow();
-});
-
-filterByDiameter.addEventListener("keyup", () => {
-  planetList = planet_list;
-
-  planetList = planetList.filter(planet =>
-    planet.diameter
-      .toLocaleLowerCase()
-      .includes(filterByDiameter.value.toLocaleLowerCase())
-  );
-
-  showTableRow();
-});
+}
 // ============ End Filter =======================
